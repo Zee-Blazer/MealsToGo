@@ -14,7 +14,7 @@ const SearchBar = styled(Searchbar)`
   border-radius: 50px;
 `;
 
-export const Search = () => {
+export const Search = ({ isFavouritesToggled, onFavouritesToggle }) => {
 
     const { keyword, search } = useContext(LocationContext);
     const [searchKeyword, setSearchKeyword] = useState(keyword);
@@ -26,6 +26,7 @@ export const Search = () => {
     return (
         <ViewSearch>
             <SearchBar 
+                icon={ isFavouritesToggled ? 'heart' : 'heart-outline' }
                 placeholder='Search for a location'
                 value={ keyword }
                 onSubmitEditing={ () => {
@@ -34,7 +35,7 @@ export const Search = () => {
                 onChangeText={ text => {
                     setSearchKeyword(text);
                 } }
-                onIconPress={ () => console.log("Pressed Icon") }
+                onIconPress={ onFavouritesToggle }
             />
       </ViewSearch>
     )
