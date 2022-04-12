@@ -1,9 +1,11 @@
+import React, { useState, useEffect } from 'react';
+
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './src/infrastructure/theme';
 
 // firebase
-import { initializeApp } from "firebase/app";
+import * as firebase from "firebase";
 
 import {useFonts as useOswald, Oswald_400Regular,} from '@expo-google-fonts/oswald';
 import {useFonts as useLato, Lato_400Regular,} from '@expo-google-fonts/lato';
@@ -13,6 +15,7 @@ import { Navigation } from './src/infrastructure/navigation';
 import { RestaurantsContextProvider } from './src/services/restaurants/restaurants.context';
 import { LocationContextProvider } from './src/services/location/location.context';
 import { FavouritesContextProvider } from './src/services/favourites/favourites.context';
+import { AuthenticationContextProvider } from './src/services/authentication/authentication.context';
 
 
 // Firebase config
@@ -25,7 +28,9 @@ const firebaseConfig = {
   appId: "1:1054606048271:web:bdee9b8f8ea2fb6384777a"
 };
 
-const app = initializeApp(firebaseConfig);
+if(!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 export default function App() {
 
@@ -40,17 +45,21 @@ export default function App() {
     <>
       <ThemeProvider theme={ theme }>
         
-        <FavouritesContextProvider>
+        <AuthenticationContextProvider>
 
-          <LocationContextProvider>
+          <FavouritesContextProvider>
 
-            <RestaurantsContextProvider>
-              <Navigation />
-            </RestaurantsContextProvider>
+            <LocationContextProvider>
 
-          </LocationContextProvider>
+              <RestaurantsContextProvider>
+                <Navigation />
+              </RestaurantsContextProvider>
 
-        </FavouritesContextProvider>
+            </LocationContextProvider>
+
+          </FavouritesContextProvider>  
+          
+        </AuthenticationContextProvider>
 
       </ThemeProvider>
       
