@@ -4,7 +4,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 
-import { NavigationContainer } from '@react-navigation/native';
+import { FavouritesContextProvider } from '../../services/favourites/favourites.context';
+import { RestaurantsContextProvider } from '../../services/restaurants/restaurants.context';
+import { LocationContextProvider } from '../../services/location/location.context';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { RestaurantsNavigator } from './restaurants.navigation';
@@ -17,12 +20,17 @@ const Tab = createBottomTabNavigator();
 export const AppNavigation = () => {
 
     return (
-        <NavigationContainer>
+        <FavouritesContextProvider>
+
+          <LocationContextProvider>
+
+            <RestaurantsContextProvider>
+
               <Tab.Navigator
                 initialRouteName="Restaurants"
-                headerMode="none" 
                 screenOptions={{
                   tabBarActiveTintColor: '#e91e63',
+                  headerShown: false
                 }}
               >
                 <Tab.Screen name="Restaurants" component={ RestaurantsNavigator } 
@@ -47,6 +55,12 @@ export const AppNavigation = () => {
                   }}
                 />
               </Tab.Navigator>
-            </NavigationContainer>
+
+            </RestaurantsContextProvider>
+
+          </LocationContextProvider>
+
+        </FavouritesContextProvider>
+          
     )
 }
