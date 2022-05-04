@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
-import styled from 'styled-components/native';
-import { StatusBar, StyleSheet, View, FlatList, Pressable } from 'react-native';
+import { StatusBar, StyleSheet, View, Pressable } from 'react-native';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 
 import { SafeAir } from '../../../components/utility/safe-area.component';
+import { FadeInView } from '../../../components/animations/fade.animation';
 
 import { RestaurantsInfo } from '../components/restaurant-info-card.component';
 
@@ -13,11 +13,7 @@ import { FavouritesContext } from '../../../services/favourites/favourites.conte
 import { Search } from '../components/search.component';
 import { FavouritesBar } from '../../../components/favourites/favourites-bar.component';
 
-const RestaurantList = styled(FlatList).attrs({
-  contentContainerStyle: {
-    padding: 16
-  }
-})``;
+import { RestaurantList } from '../components/restaurant-list.styles';
 
 export const RestaurantsScreen = ({ navigation }) => {
 
@@ -43,18 +39,20 @@ export const RestaurantsScreen = ({ navigation }) => {
         )
         :
         <RestaurantList 
-        data={ restaurants }
-        renderItem={ ({ item }) => {
+          data={ restaurants }
+          renderItem={ ({ item }) => {
 
-          return (
-            <Pressable onPress={ () => navigation.navigate('RestaurantsDetail', { item }) }>
-              <RestaurantsInfo restaurant={ item } />
-            </Pressable>
-          )
-        } }
-        keyExtractor={ (item) => `${item.icon} + ${item.name} - number${Math.floor(Math.random() *(10-1))}` }
-        contentContainerStyle={{ padding: 16 }}
-      />
+            return (
+              <Pressable onPress={ () => navigation.navigate('RestaurantsDetail', { item }) }>
+                <FadeInView>
+                  <RestaurantsInfo restaurant={ item } />
+                </FadeInView>
+              </Pressable>
+            )
+          } }
+          keyExtractor={ (item) => `${item.icon} + ${item.name} - number${Math.floor(Math.random() *(10-1))}` }
+          contentContainerStyle={{ padding: 16 }}
+        />
       }
 
     </SafeAir>

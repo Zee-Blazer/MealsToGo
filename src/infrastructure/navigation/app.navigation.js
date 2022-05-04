@@ -12,8 +12,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { RestaurantsNavigator } from './restaurants.navigation';
 
-import { SettingsScreen } from '../../features/restaurants/screens/settings.screen';
 import { MapScreen } from '../../features/map/screens/map.screen';
+import { SettingsNavigator } from './settings.navigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -47,7 +47,7 @@ export const AppNavigation = () => {
                     ),
                   }}
                 />
-                <Tab.Screen name="Settings" component={ SettingsScreen } 
+                <Tab.Screen name="Settings" component={ SettingsNavigator } 
                   options={{
                     tabBarIcon: ({ color, size }) => (
                       <Feather name="settings" size={ size } color={ color } />
